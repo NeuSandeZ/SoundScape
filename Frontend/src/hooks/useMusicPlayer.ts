@@ -1,9 +1,9 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useWavesurfer } from "@wavesurfer/react";
 
-export default function useMusicPlayer(audioUrl: string) {
+export default function useMusicPlayer(initialUrl: string) {
   const waveSurferContainerRef = useRef<HTMLDivElement>(null);
-  const [url] = useState(audioUrl);
+  const [url, setUrl] = useState<string>(initialUrl);
   const [duration, setDuration] = useState<number>(0);
 
   const { wavesurfer, isPlaying, currentTime } = useWavesurfer({
@@ -37,7 +37,13 @@ export default function useMusicPlayer(audioUrl: string) {
 
   useEffect(() => {
     getSongDuration(url).then(setDuration);
-  }, [url, getSongDuration]);
+
+    return () => {
+      if (wavesurfer) {
+        wavesurfer.destroy();
+      }
+    };
+  }, [url, getSongDuration, wavesurfer]);
 
   return {
     waveSurferContainerRef,
@@ -46,5 +52,6 @@ export default function useMusicPlayer(audioUrl: string) {
     duration,
     togglePlayPause,
     handleVolumeChange,
+    setUrl,
   };
 }

@@ -1,8 +1,9 @@
+import { useEffect } from "react";
+import useMusicPlayer from "../../hooks/useMusicPlayer";
 import MusicInfo from "./MusicInfo";
 import MusicControls from "./MusicControls";
 import MusicProgressBar from "./MusicProgressBar";
 import MusicPlayerControls from "./MusicPlayerControls";
-import useMusicPlayer from "../../hooks/useMusicPlayer";
 
 interface IProps {
   audioUrl: string;
@@ -16,7 +17,14 @@ export default function MusicPlayer({ audioUrl }: IProps) {
     duration,
     togglePlayPause,
     handleVolumeChange,
+    setUrl,
   } = useMusicPlayer(audioUrl);
+
+  useEffect(() => {
+    if (audioUrl) {
+      setUrl(audioUrl);
+    }
+  }, [audioUrl, setUrl]);
 
   return (
     <div className="h-24 fixed bottom-0 left-0 right-0 bg-gray-800 text-white px-7 flex items-center">
