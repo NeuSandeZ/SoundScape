@@ -15,6 +15,7 @@ export default function MusicControls({ isPlaying, togglePlayPause }: IProps) {
   const handleClick = () => {
     togglePlayPause(!isPlaying);
   };
+
   return (
     <div className="flex items-center space-x-3 mx-4">
       <button className="text-lg p-2">

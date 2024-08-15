@@ -5,6 +5,8 @@ export default function useMusicPlayer(initialUrl: string) {
   const waveSurferContainerRef = useRef<HTMLDivElement>(null);
   const [url, setUrl] = useState<string>(initialUrl);
   const [duration, setDuration] = useState<number>(0);
+  const [isMuted, setIsMuted] = useState<boolean>(false);
+  const [volume, setVolume] = useState<number>(0.5);
 
   const { wavesurfer, isPlaying, currentTime } = useWavesurfer({
     container: waveSurferContainerRef,
@@ -13,16 +15,9 @@ export default function useMusicPlayer(initialUrl: string) {
     progressColor: "white",
     url,
     fillParent: true,
+    // autoplay: true,
+    // duration: duration,
   });
-
-  const getSongDuration = useCallback((url: string): Promise<number> => {
-    return new Promise((resolve) => {
-      const audio = new Audio(url);
-      audio.addEventListener("loadedmetadata", () => {
-        resolve(audio.duration);
-      });
-    });
-  }, []);
 
   const togglePlayPause = useCallback(() => {
     wavesurfer?.playPause();
@@ -30,28 +25,39 @@ export default function useMusicPlayer(initialUrl: string) {
 
   const handleVolumeChange = useCallback(
     (volume: number) => {
+      setVolume(volume);
       wavesurfer?.setVolume(volume);
     },
     [wavesurfer]
   );
 
-  useEffect(() => {
-    getSongDuration(url).then(setDuration);
+  const handleMute = useCallback(
+    (mute: boolean) => {
+      wavesurfer?.setMuted(mute);
+      setIsMuted(mute);
+    },
+    [wavesurfer]
+  );
 
-    return () => {
-      if (wavesurfer) {
+  useEffect(() => {
+    if (wavesurfer) {
+      wavesurfer.load(url);
+      return () => {
         wavesurfer.destroy();
-      }
-    };
-  }, [url, getSongDuration, wavesurfer]);
+      };
+    }
+  }, [url, wavesurfer]);
 
   return {
     waveSurferContainerRef,
     isPlaying,
     currentTime,
     duration,
+    isMuted,
+    volume,
     togglePlayPause,
     handleVolumeChange,
+    handleMute,
     setUrl,
   };
 }

@@ -19,6 +19,7 @@
     "@wavesurfer/react": "^1.0.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.0",
     "wavesurfer.js": "^7.8.2"
   },
   "devDependencies": {

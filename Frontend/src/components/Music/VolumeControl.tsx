@@ -4,42 +4,39 @@ import {
   faVolumeMute,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ChangeEvent, useCallback, useState } from "react";
+import { ChangeEvent, useCallback } from "react";
 
 interface IProps {
+  volume: number;
   onVolumeChange: (volume: number) => void;
+  onMute: (isMuted: boolean) => void;
+  isMuted: boolean;
 }
 
-export default function VolumeControl({ onVolumeChange }: IProps) {
-  const [volume, setVolume] = useState(0.5);
-  const [previousVolume, setPreviousVolume] = useState(volume);
-
+export default function VolumeControl({
+  volume,
+  onVolumeChange,
+  onMute,
+  isMuted,
+}: IProps) {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newVolume = Number(event.target.value);
-    setVolume(newVolume);
     onVolumeChange(newVolume);
   };
 
   const getVolumeIcon = useCallback(() => {
-    if (volume === 0) {
+    if (isMuted || volume === 0) {
       return faVolumeMute;
     } else if (volume < 0.5) {
       return faVolumeLow;
     } else {
       return faVolumeHigh;
     }
-  }, [volume]);
+  }, [isMuted, volume]);
 
   const toggleVolume = useCallback(() => {
-    if (volume === 0) {
-      setVolume(previousVolume);
-      onVolumeChange(previousVolume);
-    } else {
-      setPreviousVolume(volume);
-      setVolume(0);
-      onVolumeChange(0);
-    }
-  }, [volume, onVolumeChange, previousVolume]);
+    onMute(!isMuted);
+  }, [isMuted, onMute]);
 
   return (
     <>
@@ -54,6 +51,7 @@ export default function VolumeControl({ onVolumeChange }: IProps) {
         step={0.01}
         value={volume}
         onChange={handleChange}
+        disabled={isMuted}
       />
     </>
   );
