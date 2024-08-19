@@ -1,29 +1,20 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import MusicPlayer from "../components/Music/MusicPlayer";
 import Navigation from "../layouts/layoutsComponents/Navigation";
-import { getSongs } from "../services/songService";
 import ContentLayout from "../layouts/ContentLayout";
 import { Outlet } from "react-router-dom";
+import { ISong } from "../interfaces/ISong";
 
 export default function MainPage() {
-  const [songs, setSongs] = useState<{ name: string; url: string }[]>([]);
-  const [selectedSong, setSelectedSong] = useState<string>("");
-
-  useEffect(() => {
-    setSongs(getSongs());
-  }, []);
-
-  const playSong = async (songUrl: string) => {
-    setSelectedSong(songUrl);
-  };
+  const [selectedSong, setSelectedSong] = useState<ISong | null>(null);
 
   return (
     <>
       <Navigation />
       <ContentLayout>
-        <Outlet />
+        <Outlet context={{ onSelectedSong: setSelectedSong }} />
       </ContentLayout>
-      <MusicPlayer audioUrl={selectedSong} />
+      {selectedSong && <MusicPlayer song={selectedSong} />}
     </>
   );
 }

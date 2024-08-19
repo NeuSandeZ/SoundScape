@@ -4,12 +4,10 @@ import MusicInfo from "./MusicInfo";
 import MusicControls from "./MusicControls";
 import MusicProgressBar from "./MusicProgressBar";
 import MusicPlayerControls from "./MusicPlayerControls";
+import { ISong } from "../../interfaces/ISong";
 
-interface IProps {
-  audioUrl: string;
-}
-
-export default function MusicPlayer({ audioUrl }: IProps) {
+export default function MusicPlayer({ song }: { song: ISong }) {
+  const { author, name, url } = song;
   const {
     waveSurferContainerRef,
     isPlaying,
@@ -21,18 +19,18 @@ export default function MusicPlayer({ audioUrl }: IProps) {
     handleVolumeChange,
     handleMute,
     setUrl,
-  } = useMusicPlayer(audioUrl);
+  } = useMusicPlayer(url);
 
   useEffect(() => {
-    if (audioUrl) {
-      setUrl(audioUrl);
+    if (url) {
+      setUrl(url);
     }
-  }, [audioUrl, setUrl]);
+  }, [url, setUrl]);
 
   return (
     <div className="h-24 fixed bottom-0 left-0 right-0 bg-gray-800 text-white px-7 flex items-center z-50">
       <div className="flex items-center w-full justify-between">
-        <MusicInfo />
+        <MusicInfo author={author} name={name} />
         <MusicControls
           isPlaying={isPlaying}
           togglePlayPause={togglePlayPause}

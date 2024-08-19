@@ -18,7 +18,7 @@ export default function MusicProgressBar({
         <span>/</span>
         <span className="px-1">{formatToMmSs(songDuration)}</span>
       </div>
-      <div ref={waveSurferContainerRef} className="w-full"></div>
+      <div ref={waveSurferContainerRef} className="w-full" />
     </div>
   );
 }
