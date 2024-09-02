@@ -18,3 +18,7 @@ const songs = [
 export const getSongs = async (): Promise<ISong[]> => {
   return songs;
 };
+
+export const addSong = async (song: ISong): Promise<void> => {
+  songs.push(song);
+};

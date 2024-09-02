@@ -1,6 +1,6 @@
-import { faHome, faMusic } from "@fortawesome/free-solid-svg-icons";
+import { faHome, faMusic, faUpload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 export default function Navigation() {
   return (
@@ -26,22 +26,49 @@ export default function Navigation() {
           </a>
           <ul className="space-y-2 font-medium">
             <li>
-              <Link
-                to={"/"}
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  `flex items-center p-2 rounded-lg group ${
+                    isActive
+                      ? "bg-gray-100 text-gray-900 dark:text-white dark:bg-gray-700"
+                      : "text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                  }`
+                }
               >
                 <FontAwesomeIcon icon={faHome} />
                 <span className="ms-3">Home</span>
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link
-                to={"/music"}
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              <NavLink
+                to="/music"
+                className={({ isActive }) =>
+                  `flex items-center p-2 rounded-lg group ${
+                    isActive
+                      ? "bg-gray-100 text-gray-900 dark:text-white dark:bg-gray-700"
+                      : "text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                  }`
+                }
               >
                 <FontAwesomeIcon icon={faMusic} />
                 <span className="ms-3">Music</span>
-              </Link>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/upload"
+                className={({ isActive }) =>
+                  `flex items-center p-2 rounded-lg group ${
+                    isActive
+                      ? "bg-gray-100 text-gray-900 dark:text-white dark:bg-gray-700"
+                      : "text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                  }`
+                }
+              >
+                <FontAwesomeIcon icon={faUpload} />
+                <span className="ms-3">Upload</span>
+              </NavLink>
             </li>
           </ul>
         </div>

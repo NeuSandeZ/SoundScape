@@ -1,6 +1,11 @@
-import { faPlay } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEllipsisVertical,
+  faPlay,
+  faHeart,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ISong } from "../../interfaces/ISong";
+import { NavLink } from "react-router-dom";
 
 interface ISongProps {
   song: ISong;
@@ -11,13 +16,11 @@ export default function Song({ song, onSongSelect }: ISongProps) {
   return (
     <li>
       <div
-        className="flex items-center p-3 bg-gray-800 rounded-md mb-4 hover:bg-gray-700 cursor-pointer transition-all duration-200"
+        className="flex items-center justify-between p-3 bg-gray-800 rounded-md mb-4 hover:bg-gray-700 cursor-pointer transition-all duration-200"
         onClick={onSongSelect}
       >
-        <div>
-          <FontAwesomeIcon icon={faPlay} />
-        </div>
         <div className="flex items-center">
+          <FontAwesomeIcon icon={faPlay} className="text-white mr-3" />
           <img
             src="https://via.placeholder.com/50"
             alt={`${song.name} Cover`}
@@ -32,14 +35,15 @@ export default function Song({ song, onSongSelect }: ISongProps) {
           <p className="text-gray-400 text-sm mr-4">02:21</p>
           <div className="flex space-x-2">
             <button className="text-gray-400 hover:text-white">
-              <i className="fas fa-download"></i>
+              <FontAwesomeIcon icon={faHeart} />
             </button>
-            <button className="text-gray-400 hover:text-white">
-              <i className="fas fa-heart"></i>
-            </button>
-            <button className="text-gray-400 hover:text-white">
-              <i className="fas fa-ellipsis-h"></i>
-            </button>
+            <NavLink
+              className="btn btn-ghost btn-circle hover:text-white"
+              to={`/music/${song.id}`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <FontAwesomeIcon icon={faEllipsisVertical} />
+            </NavLink>
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import { useOutletContext } from "react-router-dom";
 import useSongs from "../hooks/useSongs";
-import MusicList from "../components/MusicList";
+import MusicList from "../components/Music/MusicList";
 import { ISong } from "../interfaces/ISong";
 
 interface IProps {

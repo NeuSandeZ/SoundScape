@@ -1,5 +1,5 @@
-import { ISong } from "../interfaces/ISong";
-import Song from "./Music/Song";
+import { ISong } from "../../interfaces/ISong";
+import Song from "./Song";
 
 export default function MusicList({
   songs,
