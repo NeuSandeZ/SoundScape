@@ -1,6 +1,7 @@
 import {
   faEllipsisVertical,
   faPlay,
+  faPause,
   faHeart,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,10 +10,11 @@ import { NavLink } from "react-router-dom";
 
 interface ISongProps {
   song: ISong;
+  isPlaying: boolean;
   onSongSelect: () => void;
 }
 
-export default function Song({ song, onSongSelect }: ISongProps) {
+export default function Song({ song, isPlaying, onSongSelect }: ISongProps) {
   return (
     <li>
       <div
@@ -20,7 +22,10 @@ export default function Song({ song, onSongSelect }: ISongProps) {
         onClick={onSongSelect}
       >
         <div className="flex items-center">
-          <FontAwesomeIcon icon={faPlay} className="text-white mr-3" />
+          <FontAwesomeIcon
+            icon={isPlaying ? faPause : faPlay}
+            className="text-white mr-3"
+          />
           <img
             src="https://via.placeholder.com/50"
             alt={`${song.name} Cover`}

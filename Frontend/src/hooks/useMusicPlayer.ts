@@ -2,7 +2,7 @@ import { useState, useCallback, useRef, useEffect } from "react";
 import { useWavesurfer } from "@wavesurfer/react";
 import WaveSurfer from "wavesurfer.js";
 
-export default function useMusicPlayer(initialUrl: string) {
+export default function useMusicPlayer(initialUrl: string, isPlaying: boolean) {
   const waveSurferContainerRef = useRef<HTMLDivElement>(null);
   const wavesurferRef = useRef<WaveSurfer | null>(null);
   const [url, setUrl] = useState<string>(initialUrl);
@@ -10,7 +10,7 @@ export default function useMusicPlayer(initialUrl: string) {
   const [isMuted, setIsMuted] = useState<boolean>(false);
   const [volume, setVolume] = useState<number>(0.5);
 
-  const { wavesurfer, isPlaying, currentTime, isReady } = useWavesurfer({
+  const { wavesurfer, currentTime, isReady } = useWavesurfer({
     container: waveSurferContainerRef,
     height: 50,
     waveColor: "grey",
@@ -18,10 +18,6 @@ export default function useMusicPlayer(initialUrl: string) {
     url,
     fillParent: true,
   });
-
-  const togglePlayPause = useCallback(() => {
-    wavesurferRef.current?.playPause();
-  }, []);
 
   const handleVolumeChange = useCallback((volume: number) => {
     setVolume(volume);
@@ -32,6 +28,14 @@ export default function useMusicPlayer(initialUrl: string) {
     wavesurferRef.current?.setMuted(mute);
     setIsMuted(mute);
   }, []);
+
+  useEffect(() => {
+    if (isPlaying) {
+      wavesurferRef.current?.play();
+    } else {
+      wavesurferRef.current?.pause();
+    }
+  }, [isPlaying]);
 
   useEffect(() => {
     wavesurferRef.current = wavesurfer;
@@ -60,7 +64,6 @@ export default function useMusicPlayer(initialUrl: string) {
     duration,
     isMuted,
     volume,
-    togglePlayPause,
     handleVolumeChange,
     handleMute,
     setUrl,
