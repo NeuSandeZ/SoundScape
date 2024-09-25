@@ -17,8 +17,8 @@ export default function MusicPlayerControls({
   volume,
 }: IProps) {
   return (
-    <div className="flex items-center">
-      <div className="md:flex items-center space-x-5">
+    <div className="ml-8 items-center">
+      <div className="flex items-center space-x-5">
         <DownloadIconButton />
         <FavouriteIconButton />
         <MoreVerticalButton />

@@ -1,6 +1,6 @@
 import { formatToMmSs } from "../../services/formatTimeService";
 
-interface IProps {
+interface IMusicProgressBarProps {
   waveSurferContainerRef: React.RefObject<HTMLDivElement>;
   currentTime: number;
   songDuration: number;
@@ -10,10 +10,10 @@ export default function MusicProgressBar({
   waveSurferContainerRef,
   currentTime,
   songDuration,
-}: IProps) {
+}: IMusicProgressBarProps) {
   return (
-    <div className="sm:flex items-center space-x-4 flex-grow justify-center max-w-xl mx-4">
-      <div className="text-s text-gray-400 px-5">
+    <div className="flex basis-auto items-center flex-grow justify-center">
+      <div className="text-gray-400 w-28">
         <span className="px-1">{formatToMmSs(currentTime)}</span>
         <span>/</span>
         <span className="px-1">{formatToMmSs(songDuration)}</span>

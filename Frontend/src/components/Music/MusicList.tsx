@@ -1,7 +1,6 @@
 import { useMusicPlayerContext } from "../../context/MusicPlayerContext";
 import { ISong } from "../../interfaces/ISong";
 import Song from "./Song";
-
 export default function SongList({ songs }: { songs: ISong[] }) {
   const { playSong, togglePlayPause, currentSong, isPlaying } =
     useMusicPlayerContext();

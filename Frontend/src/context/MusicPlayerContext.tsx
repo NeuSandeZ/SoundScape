@@ -1,36 +1,66 @@
 import React, { createContext, useContext, useState, useCallback } from "react";
 import { ISong } from "../interfaces/ISong";
+import useMusicPlayer from "../hooks/useMusicPlayer";
 
 interface MusicPlayerContextType {
   currentSong: ISong | null;
-  isPlaying: boolean;
   playSong: (song: ISong) => void;
   togglePlayPause: () => void;
-  setPlaying: (isPlaying: boolean) => void;
+  waveSurferContainerRef: React.RefObject<HTMLDivElement>;
+  currentTime: number;
+  duration: number;
+  isMuted: boolean;
+  volume: number;
+  isPlaying: boolean;
+  handleVolumeChange: (volume: number) => void;
+  handleMute: (mute: boolean) => void;
 }
 
-const MusicPlayerContext = createContext<MusicPlayerContextType | undefined>(undefined);
+const MusicPlayerContext = createContext<MusicPlayerContextType | undefined>(
+  undefined
+);
 
-export const MusicPlayerProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const MusicPlayerProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [currentSong, setCurrentSong] = useState<ISong | null>(null);
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
-  const playSong = useCallback((song: ISong) => {
-    setCurrentSong(song);
-    setIsPlaying(true);
-  }, []);
+  const {
+    waveSurferContainerRef,
+    currentTime,
+    duration,
+    isMuted,
+    volume,
+    isPlaying,
+    togglePlayPause,
+    handleVolumeChange,
+    handleMute,
+    setUrl,
+  } = useMusicPlayer(currentSong?.url || "");
 
-  const togglePlayPause = useCallback(() => {
-    setIsPlaying((prev) => !prev);
-  }, []);
-
-  const setPlaying = useCallback((playing: boolean) => {
-    setIsPlaying(playing);
-  }, []);
+  const playSong = useCallback(
+    (song: ISong) => {
+      setCurrentSong(song);
+      setUrl(song.url);
+    },
+    [setUrl]
+  );
 
   return (
     <MusicPlayerContext.Provider
-      value={{ currentSong, isPlaying, playSong, togglePlayPause, setPlaying }}
+      value={{
+        currentSong,
+        playSong,
+        togglePlayPause,
+        waveSurferContainerRef,
+        currentTime,
+        duration,
+        isMuted,
+        volume,
+        isPlaying,
+        handleVolumeChange,
+        handleMute,
+      }}
     >
       {children}
     </MusicPlayerContext.Provider>
@@ -40,7 +70,9 @@ export const MusicPlayerProvider: React.FC<{ children: React.ReactNode }> = ({ c
 export const useMusicPlayerContext = () => {
   const context = useContext(MusicPlayerContext);
   if (!context) {
-    throw new Error("useMusicPlayerContext must be used within a MusicPlayerProvider");
+    throw new Error(
+      "useMusicPlayerContext must be used within a MusicPlayerProvider"
+    );
   }
   return context;
 };

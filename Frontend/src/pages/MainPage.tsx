@@ -7,13 +7,13 @@ import { MusicPlayerProvider } from "../context/MusicPlayerContext";
 export default function MainPage() {
   return (
     <>
-    <Navigation />
-    <MusicPlayerProvider>
-      <ContentLayout>
-        <Outlet />
-      </ContentLayout>
-      <MusicPlayer />
-    </MusicPlayerProvider>
+      <Navigation />
+      <MusicPlayerProvider>
+        <ContentLayout>
+          <Outlet />
+        </ContentLayout>
+        <MusicPlayer />
+      </MusicPlayerProvider>
     </>
   );
 }

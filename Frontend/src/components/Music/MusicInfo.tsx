@@ -4,7 +4,7 @@ interface IMusicInfoProps {
 }
 export default function MusicInfo({ author, name }: IMusicInfoProps) {
   return (
-    <div className="flex items-center space-x-4">
+    <div className="basis-1/6  items-center">
       <div className="flex items-center">
         <img
           src="https://via.placeholder.com/50"

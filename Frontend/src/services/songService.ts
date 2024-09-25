@@ -1,6 +1,6 @@
 import { ISong } from "../interfaces/ISong";
 
-const songs = [
+const songs: ISong[] = [
   {
     id: "1",
     name: "Warm Shadow",
@@ -17,6 +17,10 @@ const songs = [
 
 export const getSongs = async (): Promise<ISong[]> => {
   return songs;
+};
+
+export const getSong = async (id: string): Promise<ISong | undefined> => {
+  return songs.find((song) => song.id === id);
 };
 
 export const addSong = async (song: ISong): Promise<void> => {

@@ -17,7 +17,7 @@ export default function MusicControls({ isPlaying, togglePlayPause }: IProps) {
   };
 
   return (
-    <div className="flex items-center space-x-3 mx-4">
+    <div className="basis-1/6 items-center space-x-3">
       <button className="text-lg p-2">
         <FontAwesomeIcon icon={faBackward} />
       </button>
